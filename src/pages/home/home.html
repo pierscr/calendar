@@ -7,32 +7,62 @@
 </ion-header>
 
 <ion-content padding >
-  <div class="calendar-header" (swipe)="swipe($event)">
+  <div class="calendar-header" (swipe)="swipeWeek($event)">
     <ion-row class="calendar-month">
       <ion-col col-2 (click)="goToLastMonth()"><ion-icon name="arrow-back"></ion-icon></ion-col>
       <ion-col col-8>{{currentMonth}} {{currentYear}}</ion-col>
       <ion-col col-2 (click)="goToNextMonth()"><ion-icon name="arrow-forward"></ion-icon></ion-col>
     </ion-row>
   </div>
-  <div class="calendar-body" (swipe)="swipeWeek($event)">
+  <div class="calendar-body" >
     <ion-grid>
-      <ion-row class="calendar-weekday">
-        <ion-col>Su</ion-col>
-        <ion-col>Mo</ion-col>
-        <ion-col>Tu</ion-col>
-        <ion-col>We</ion-col>
-        <ion-col>Th</ion-col>
-        <ion-col>Fr</ion-col>
-        <ion-col>Sa</ion-col>
-      </ion-row>
-      <ion-row class="calendar-date">
-        <ion-col col-1 *ngFor="let lastDay of daysInLastMonth" class="last-month">{{lastDay}}</ion-col>
-        <ion-col col-1 *ngFor="let day of daysInThisMonth">
-          <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
-          <ng-template #otherDate class="otherDate">{{day}}</ng-template>
-        </ion-col>
-        <ion-col col-1 *ngFor="let nextDay of daysInNextMonth" class="next-month">{{nextDay}}</ion-col>
-      </ion-row>
-    </ion-grid>
+        <ion-row class="calendar-weekday">
+          <ion-col>Su</ion-col>
+          <ion-col>Mo</ion-col>
+          <ion-col>Tu</ion-col>
+          <ion-col>We</ion-col>
+          <ion-col>Th</ion-col>
+          <ion-col>Fr</ion-col>
+          <ion-col>Sa</ion-col>
+        </ion-row>
+      </ion-grid>
+        <ion-slides loop="true" (ionSlideNextEnd)="slideSwipe($event)" (ionSlidePrevEnd)="slideSwipe($event)"  #slider (ionSlideDidChange)="onSlideDrag() " >
+           <ion-slide>
+             <ion-grid>
+             <ion-row class="calendar-date">
+              <ion-col col-1 *ngFor="let lastDay of cal[0].dayLastMonthThisView" class="last-month">{{lastDay}}</ion-col>
+              <ion-col col-1 *ngFor="let day of cal[0].dayThisView">
+                <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
+                <ng-template #otherDate class="otherDate">{{day}}</ng-template>
+              </ion-col>
+              <ion-col col-1 *ngFor="let nextDay of cal[0].dayPreMonthThisView" class="next-month">{{nextDay}}</ion-col>
+            </ion-row>
+          </ion-grid>
+          </ion-slide>
+          <ion-slide>
+            <ion-grid>
+            <ion-row class="calendar-date">
+             <ion-col col-1 *ngFor="let lastDay of cal[1].dayLastMonthThisView" class="last-month">{{lastDay}}</ion-col>
+             <ion-col col-1 *ngFor="let day of cal[1].dayThisView">
+               <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
+               <ng-template #otherDate class="otherDate">{{day}}</ng-template>
+             </ion-col>
+             <ion-col col-1 *ngFor="let nextDay of cal[1].dayPreMonthThisView" class="next-month">{{nextDay}}</ion-col>
+           </ion-row>
+         </ion-grid>
+         </ion-slide>
+         <ion-slide>
+           <ion-grid>
+           <ion-row class="calendar-date">
+            <ion-col col-1 *ngFor="let lastDay of cal[2].dayLastMonthThisView" class="last-month">{{lastDay}}</ion-col>
+            <ion-col col-1 *ngFor="let day of cal[2].dayThisView">
+              <span class="currentDate" *ngIf="currentDate === day; else otherDate">{{day}}</span>
+              <ng-template #otherDate class="otherDate">{{day}}</ng-template>
+            </ion-col>
+            <ion-col col-1 *ngFor="let nextDay of cal[2].dayPreMonthThisView" class="next-month">{{nextDay}}</ion-col>
+          </ion-row>
+        </ion-grid>
+        </ion-slide>
+        </ion-slides>
   </div>
 </ion-content>
